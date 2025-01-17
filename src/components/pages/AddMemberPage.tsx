@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { addMember } from '../../services/api';
+import Navbar from '../Navbar';
+import "../styles/AddMemberPage.css";
 
 const AddMemberPage: React.FC = () => {
   const { teamId } = useParams<{ teamId: string }>();
@@ -19,8 +21,9 @@ const AddMemberPage: React.FC = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Add Member to Team</h1>
-      <form onSubmit={handleAddMember}>
+      <form className="add-member-form" onSubmit={handleAddMember}>
         <label>
           Member Name:
           <input type="text" value={memberName} onChange={(e) => setMemberName(e.target.value)} required />

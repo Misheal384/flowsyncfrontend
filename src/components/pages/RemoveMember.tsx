@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Navbar from '../Navbar';
 
 interface Team {
     id: string;
@@ -48,6 +49,7 @@ const RemoveMember: React.FC = () => {
 
     return (
         <div>
+            <Navbar />
             <h1>Remove Member</h1>
             <div>
                 <label>Select Team:</label>
