@@ -59,6 +59,9 @@ const StandupPage: React.FC = () => {
   return (
     <div>
       <h1>Team Standups</h1>
+      <div className='tabs'>
+          <button className='export'>Export Standup data</button>
+      </div>
       <div>
         <label>
           Team:
