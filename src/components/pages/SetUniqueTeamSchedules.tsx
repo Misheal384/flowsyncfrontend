@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import Navbar from '../Navbar';
 interface Team {
     id: string;
     name: string;
@@ -57,6 +57,7 @@ const SetUniqueTeamSchedules: React.FC = () => {
 
     return (
         <div>
+            <Navbar />
             <h1>Set Unique Team Schedules</h1>
             <div>
                 <label htmlFor="team-select">Select Team:</label>

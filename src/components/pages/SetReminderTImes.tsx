@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Navbar from '../Navbar';
 
 
 interface Team {
@@ -48,6 +49,7 @@ const SetReminderTimes: React.FC = () => {
 
     return (
         <div>
+            <Navbar />
             <h1>Set Reminder Times</h1>
             <div>
                 <label>Select Team:</label>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Navbar from '../Navbar';
 
 const RemoveTeam: React.FC = () => {
     const [teams, setTeams] = useState<string[]>([]);
@@ -33,6 +34,7 @@ const RemoveTeam: React.FC = () => {
 
     return (
         <div>
+            <Navbar />
             <h1>Remove Team</h1>
             <select value={selectedTeam} onChange={(e) => setSelectedTeam(e.target.value)}>
                 <option value="" disabled>Select a team to delete</option>

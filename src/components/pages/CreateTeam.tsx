@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { createTeam } from '../../services/api';
+import Navbar from '../Navbar';
+import "../styles/CreateTeam.css";
 
 const TeamPage: React.FC = () => {
   const [teamName, setTeamName] = useState('');
@@ -17,21 +19,54 @@ const TeamPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="team-page">
+      <Navbar />
       <h1>Create Team</h1>
-      <form onSubmit={handleCreateTeam}>
+      <form className="team-form" onSubmit={handleCreateTeam}>
         <label>
           Team Name:
-          <input type="text" value={teamName} onChange={(e) => setTeamName(e.target.value)} required />
+          <input 
+            type="text" 
+            value={teamName} 
+            onChange={(e) => setTeamName(e.target.value)} 
+            required 
+          />
         </label>
+        
         <label>
           Timezone:
-          <input type="text" value={timezone} onChange={(e) => setTimezone(e.target.value)} required />
+          <select 
+            value={timezone} 
+            onChange={(e) => setTimezone(e.target.value)} 
+            required
+          >
+            <option value="">Select Timezone</option>
+            <option value="UTC">UTC</option>
+            <option value="GMT">GMT</option>
+            <option value="EST">EST</option>
+            <option value="PST">PST</option>
+            <option value="CET">CET</option>
+            <option value="IST">IST</option>
+            {/* Add more timezones as necessary */}
+          </select>
         </label>
+
         <label>
           Schedule:
-          <input type="text" value={schedule} onChange={(e) => setSchedule(e.target.value)} required />
+          <select 
+            value={schedule} 
+            onChange={(e) => setSchedule(e.target.value)} 
+            required
+          >
+            <option value="">Select Schedule</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Biweekly">Biweekly</option>
+            <option value="Monthly">Monthly</option>
+            {/* Add more schedule options as necessary */}
+          </select>
         </label>
+        
         <button type="submit">Create Team</button>
       </form>
     </div>

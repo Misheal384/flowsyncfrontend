@@ -11,6 +11,7 @@ import SetUniqueTeamReminder from './components/pages/SetUniqueTeamSchedules';
 import SetReminderTimes from './components/pages/SetUniqueTeamSchedules';
 import StandupPage from './components/pages/StandupPage';
 import NotFoundPage from './components/pages/NotFoundPage';
+import Reports from './components/pages/Reports';
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
   { path: '/create-team', element: <CreateTeamPage /> },
   { path: '/teams/:teamId/members', element: <AddMemberPage /> },
   { path: '/teams/:teamId/members/:memberId/standup', element: <StandupPage /> },
+  { path: '/reports', element: <Reports /> },
   { path: '*', element: <NotFoundPage /> },
 ]);
 

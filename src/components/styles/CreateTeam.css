@@ -1,0 +1,92 @@
+/* Style for the TeamPage */
+.team-page {
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+    background-color: #f5f5f5; /* Light grey background for the page */
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Header for the page */
+  .team-page h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  /* Form container */
+  .team-form{
+    background-color: #fff; /* White background for the form */
+    padding: 2rem;
+    border-radius: 6px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Light shadow for subtle depth */
+    width: 100%;
+    max-width: 400px; /* Max width for a compact form */
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  /* Label styling */
+  label {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Input and select fields */
+  input, select {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #bbb5b5;
+    border-radius: 4px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s ease;
+    background-color: #fafafa; /* Light background for input/select fields */
+  }
+  
+  /* Focus effect for input/select fields */
+  input, select {
+    border-color: #6a11cb; /* Highlight color on focus */
+    background-color: #1b1414; /* White background when focused */
+  }
+  
+  /* Button styling */
+  button {
+    padding: 1rem;
+    font-size: 1.1rem;
+    background-color: #6a11cb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button hover effect */
+  button:hover {
+    background-color: #2575fc;
+  }
+  
+  /* For smaller screens */
+  @media (max-width: 768px) {
+    .team-page {
+      padding: 1rem;
+    }
+  
+    form {
+      padding: 1.5rem;
+      width: 90%; /* Make form slightly bigger on mobile */
+    }
+  
+    button {
+      font-size: 1rem;
+    }
+  }
+  

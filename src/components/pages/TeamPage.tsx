@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/TeamPage.css'
+import Navbar from '../Navbar';
 
 const TeamPage: React.FC = () => {
     const navigate = useNavigate();
@@ -11,8 +12,9 @@ const TeamPage: React.FC = () => {
 
     return (
         <div className='manager'>
+            <Navbar />
             <h1>Team Management</h1>
-            <button id='home-btn' onClick={() => navigateTo('/')}>Home</button>
+            
             <ul>
                 <li>
                     <button onClick={() => navigateTo('/add-team')}>Add Team</button>
@@ -32,9 +34,7 @@ const TeamPage: React.FC = () => {
                 <li>
                     <button onClick={() => navigateTo('/set-reminder-times')}>Set Reminder Times</button>
                 </li>
-                <li>
-                    <button onClick={() => navigateTo('/configure-standup-questions')}>Configure Standup Questions</button>
-                </li>
+               
             </ul>
         </div>
     );

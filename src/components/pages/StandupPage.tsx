@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from '../Navbar';
+import '../styles/StandupPage.css'
 
 interface Standup {
   id: number;
@@ -15,7 +17,6 @@ const StandupPage: React.FC = () => {
   const [sort, setSort] = useState<'completed' | 'pending' | ''>('');
 
   useEffect(() => {
-    // Fetch standups from an API or database
     const fetchStandups = async () => {
       const response = await fetch('/api/standups');
       const data = await response.json();
@@ -30,15 +31,15 @@ const StandupPage: React.FC = () => {
     let filtered = standups;
 
     if (filter.team) {
-      filtered = filtered.filter(standup => standup.team === filter.team);
+      filtered = filtered.filter((standup) => standup.team === filter.team);
     }
 
     if (filter.date) {
-      filtered = filtered.filter(standup => standup.date === filter.date);
+      filtered = filtered.filter((standup) => standup.date === filter.date);
     }
 
     if (filter.member) {
-      filtered = filtered.filter(standup => standup.member === filter.member);
+      filtered = filtered.filter((standup) => standup.member === filter.member);
     }
 
     if (sort) {
@@ -57,34 +58,76 @@ const StandupPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Team Standups</h1>
-      <div>
-        <label>
-          Team:
-          <input type="text" name="team" value={filter.team} onChange={handleFilterChange} />
-        </label>
-        <label>
-          Date:
-          <input type="date" name="date" value={filter.date} onChange={handleFilterChange} />
-        </label>
-        <label>
-          Member:
-          <input type="text" name="member" value={filter.member} onChange={handleFilterChange} />
-        </label>
-        <label>
-          Sort by status:
-          <select value={sort} onChange={handleSortChange}>
+    <div className="standup-page">
+      <Navbar />
+      <h1 className="page-title">Team Standups</h1>
+      <form className="standup-filter-form">
+        <div className="form-group">
+          <label htmlFor="team" className="form-label">
+            Team:
+          </label>
+          <input
+            id="team"
+            type="text"
+            name="team"
+            value={filter.team}
+            onChange={handleFilterChange}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="date" className="form-label">
+            Date:
+          </label>
+          <input
+            id="date"
+            type="date"
+            name="date"
+            value={filter.date}
+            onChange={handleFilterChange}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="member" className="form-label">
+            Member:
+          </label>
+          <input
+            id="member"
+            type="text"
+            name="member"
+            value={filter.member}
+            onChange={handleFilterChange}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="sort" className="form-label">
+            Sort by status:
+          </label>
+          <select
+            id="sort"
+            value={sort}
+            onChange={handleSortChange}
+            className="form-select"
+          >
             <option value="">None</option>
             <option value="completed">Completed</option>
             <option value="pending">Pending</option>
           </select>
-        </label>
-      </div>
-      <ul>
-        {filteredStandups.map(standup => (
-          <li key={standup.id}>
-            {standup.team} - {standup.date} - {standup.member} - {standup.status}
+        </div>
+        <button type="submit" className="form-button">
+          Apply Filters
+        </button>
+      </form>
+      <ul className="standup-list">
+        {filteredStandups.map((standup) => (
+          <li key={standup.id} className="standup-item">
+            <span>{standup.team}</span> - <span>{standup.date}</span> -{' '}
+            <span>{standup.member}</span> -{' '}
+            <span className={`status ${standup.status}`}>
+              {standup.status}
+            </span>
           </li>
         ))}
       </ul>
