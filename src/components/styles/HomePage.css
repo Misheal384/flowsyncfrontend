@@ -3,18 +3,23 @@
 .home-page {
     display: flex;
     flex-direction: column;
+    padding-top: 8rem;
     align-items: center;
-    justify-content: center;
     height: 100vh;
     background: linear-gradient(135deg, #6a11cb, #2575fc);
     color: #fff;
     font-family: Arial, sans-serif;
     text-align: center;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
   }
   
   .home-page h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
+    margin-top: 2rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
   

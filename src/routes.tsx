@@ -1,17 +1,34 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import TeamPage from './pages/TeamPage';
-import AddMemberPage from './pages/AddMemberPage';
-import HomePage from './pages/HomePage';
-// import NotFoundPage from './pages/NotFoundPage';
-import StandupPage from './pages/StandupPage'
+import CreateTeamPage from './components/pages/CreateTeam';
+import ManageTeam from './components/pages/TeamPage';
+import AddMemberPage from './components/pages/AddMemberPage';
+import HomePage from './components/pages/HomePage';
+import RemoveTeam from './components/pages/RemoveTeam';
+import RemoveMember from './components/pages/RemoveMember';
+import ConfigureStandup from './components/pages/ConfigureStandupQuestions';
+import SetUniqueTeamReminder from './components/pages/SetUniqueTeamSchedules';
+import SetReminderTimes from './components/pages/SetUniqueTeamSchedules';
+import StandupPage from './components/pages/StandupPage';
+import NotFoundPage from './components/pages/NotFoundPage';
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
-  { path: '/teams', element: <TeamPage /> },
+  //need to make huge adjustments
+  { path: '/teams/', element: <ManageTeam /> },
+  { path: '/add-team', element: <CreateTeamPage /> },
+  { path: '/remove-team', element: <RemoveTeam /> },
+  { path: '/add-team-member', element: <AddMemberPage/> },
+  { path: '/remove-team-member', element: <RemoveMember /> },
+  { path: '/set-unique-team-schedules', element: <SetUniqueTeamReminder /> },
+  { path: '/set-reminder-times', element: <SetReminderTimes /> },
+  { path: '/configure-standup-questions', element: <ConfigureStandup /> },
+  //need to make huge adjustments
+  //changes within here to be done
+  { path: '/create-team', element: <CreateTeamPage /> },
   { path: '/teams/:teamId/members', element: <AddMemberPage /> },
   { path: '/teams/:teamId/members/:memberId/standup', element: <StandupPage /> },
-//   { path: '*', element: <NotFoundPage /> },
+  { path: '*', element: <NotFoundPage /> },
 ]);
 
 const Routes: React.FC = () => {

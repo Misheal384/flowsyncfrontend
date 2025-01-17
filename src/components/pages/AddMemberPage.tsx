@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { addMember } from '../services/api';
+import { addMember } from '../../services/api';
 
 const AddMemberPage: React.FC = () => {
   const { teamId } = useParams<{ teamId: string }>();

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createTeam } from '../services/api';
+import { createTeam } from '../../services/api';
 
 const TeamPage: React.FC = () => {
   const [teamName, setTeamName] = useState('');
