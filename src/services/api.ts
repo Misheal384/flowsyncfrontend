@@ -24,3 +24,16 @@ export const getStandups = async (filters: { teamId?: string; memberId?: string;
 export const getTeamStandups = async (teamId: string) => {
   return api.get(`/standups/teams/${teamId}`);
 };
+ 
+
+export const getTeams = async () => {
+  return await axios.get('/api/teams');
+};
+
+export const deleteTeam = async (teamId: any) => {
+  return await axios.delete(`/api/teams/${teamId}`);
+};
+
+export const removeMember = async ( teamId: any, memberId: any) => {
+  return await axios.delete(`/api/teams/${teamId}/members/${memberId}`);
+};
