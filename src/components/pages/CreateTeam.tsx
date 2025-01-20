@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { createTeam } from '../../services/api';
 import Navbar from '../Navbar';
 import "../styles/CreateTeam.css";
 
 const TeamPage: React.FC = () => {
   const [teamName, setTeamName] = useState('');
+  const [teamDescription, setDescription] = useState('');
   const [timezone, setTimezone] = useState('');
   const [schedule, setSchedule] = useState('');
+
+  const navigate = useNavigate(); // Initialize navigate
 
   const handleCreateTeam = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await createTeam({ name: teamName, timezone, schedule });
+      // Create the team
+      const response = await createTeam({ name: teamName, description: teamDescription, timezone, schedule });
       console.log('Team created successfully:', response.data);
+      
+      // Redirect to the Configure Standup Questions page
+      navigate('/configure-standup-questions');
     } catch (error) {
       console.error('Error creating team:', error);
     }
@@ -32,8 +40,18 @@ const TeamPage: React.FC = () => {
             required 
           />
         </label>
-        
+
         <label>
+          Team Description:
+          <input 
+            type="text" 
+            value={teamDescription} 
+            onChange={(e) => setDescription(e.target.value)} 
+            required 
+          />
+        </label>
+
+        {/* <label>
           Timezone:
           <select 
             value={timezone} 
@@ -47,11 +65,10 @@ const TeamPage: React.FC = () => {
             <option value="PST">PST</option>
             <option value="CET">CET</option>
             <option value="IST">IST</option>
-            {/* Add more timezones as necessary */}
           </select>
-        </label>
+        </label> */}
 
-        <label>
+        {/* <label>
           Schedule:
           <select 
             value={schedule} 
@@ -63,10 +80,9 @@ const TeamPage: React.FC = () => {
             <option value="Weekly">Weekly</option>
             <option value="Biweekly">Biweekly</option>
             <option value="Monthly">Monthly</option>
-            {/* Add more schedule options as necessary */}
           </select>
         </label>
-        
+         */}
         <button type="submit">Create Team</button>
       </form>
     </div>

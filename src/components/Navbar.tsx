@@ -13,10 +13,13 @@ const Navbar: React.FC = () => (
       <span className="icon"><FontAwesomeIcon icon={faUsers} /></span> Teams
     </Link>
     <Link to="/configure-standup-questions" className="nav-item">
-      <span className="icon"><FontAwesomeIcon icon={faClipboardList} /></span> Standups
+      <span className="icon"><FontAwesomeIcon icon={faClipboardList} /></span> Standup Bot
     </Link>
     <Link to="/reports" className="nav-item">
-      <span className="icon"><FontAwesomeIcon icon={faChartBar} /></span> Reports
+      <span className="icon"><FontAwesomeIcon icon={faChartBar} /></span> Reports/Analytics
+    </Link>
+    <Link to="/reports" className="nav-item">
+      <span className="icon"><FontAwesomeIcon icon={faChartBar} /></span> Standup Collection
     </Link>
   </nav>
 );

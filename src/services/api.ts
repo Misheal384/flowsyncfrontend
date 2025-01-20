@@ -5,11 +5,11 @@ const api = axios.create({
   baseURL: 'http://localhost:5000',
 });
 
-export const createTeam = async (teamData: { name: string; timezone: string; schedule: string }) => {
+export const createTeam = async (teamData: { name: string; description: string; timezone: string; schedule: string }) => {
   return api.post('/teams', teamData);
 };
 
-export const addMember = async (teamId: string, memberData: { name: string; slackId: string }) => {
+export const addMember = async (teamId: string, memberData: { name: string;  email: string;slackId: string }) => {
   return api.post(`/teams/${teamId}/members`, memberData);
 };
 
