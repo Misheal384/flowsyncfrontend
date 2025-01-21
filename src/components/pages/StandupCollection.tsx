@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../styles/HomePage.css";
 import Navbar from "../Navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faSearch, faCheck, faClipboard, faChartBar } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faClipboard, faChartBar, faClock } from '@fortawesome/free-solid-svg-icons';
 
 const HomePage: React.FC = () => {
   return (
@@ -18,30 +18,15 @@ const HomePage: React.FC = () => {
           </div>
           <div className="card-title">Manage Teams</div>
         </Link>
-        <Link to="" className="card">
+        
+        <Link to='/set-reminder-times' className="card">
           <div className="card-icon">
-            <FontAwesomeIcon icon={faSearch} />
+            <FontAwesomeIcon icon={faClock} />
           </div>
-          <div className="card-title">Filter by Team/Date/Member</div>
+          <div className="card-title">Set Reminders</div>
         </Link>
-        <Link to="/teams" className="card">
-          <div className="card-icon">
-            <FontAwesomeIcon icon={faCheck} />
-          </div>
-          <div className="card-title">Completion Status</div>
-        </Link>
-        <Link to="/teams/:teamId/members/:memberId/standup" className="card">
-          <div className="card-icon">
-            <FontAwesomeIcon icon={faClipboard} />
-          </div>
-          <div className="card-title">View Standups</div>
-        </Link>
-        <Link to="/reports" className="card">
-          <div className="card-icon">
-            <FontAwesomeIcon icon={faChartBar} />
-          </div>
-          <div className="card-title">Generate Reports</div>
-        </Link>
+     
+          
       </div>
     </div>
   );

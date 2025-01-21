@@ -9,7 +9,8 @@ export const createTeam = async (teamData: { name: string; description: string; 
   return api.post('/teams', teamData);
 };
 
-export const addMember = async (teamId: string, memberData: { name: string;  email: string;slackId: string }) => {
+export const addMember = async (teamId: string, memberData: { name: string;reminderDay: string; frequency: string;
+   startDate: string,reminderTime: string, email: string; slackId: string }) => {
   return api.post(`/teams/${teamId}/members`, memberData);
 };
 

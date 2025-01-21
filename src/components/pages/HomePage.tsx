@@ -16,20 +16,9 @@ const HomePage: React.FC = () => {
           <div className="card-icon">
             <FontAwesomeIcon icon={faUsers} />
           </div>
-          <div className="card-title">Manage Teams</div>
+          <div className="card-title">Create/Manage Teams</div>
         </Link>
-        <Link to="" className="card">
-          <div className="card-icon">
-            <FontAwesomeIcon icon={faSearch} />
-          </div>
-          <div className="card-title">Filter by Team/Date/Member</div>
-        </Link>
-        <Link to="/teams" className="card">
-          <div className="card-icon">
-            <FontAwesomeIcon icon={faCheck} />
-          </div>
-          <div className="card-title">Completion Status</div>
-        </Link>
+        
         <Link to="/teams/:teamId/members/:memberId/standup" className="card">
           <div className="card-icon">
             <FontAwesomeIcon icon={faClipboard} />

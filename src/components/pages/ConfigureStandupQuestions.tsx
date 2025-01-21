@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar';
+import TeamNav from '../TeamNav';
 import "../styles/ConfigureStandupQuestions.css";
 
 interface Question {
@@ -10,11 +11,12 @@ interface Question {
 }
 
 const ConfigureStandupQuestions: React.FC = () => {
+  const [introMessage, setIntroMessage] = useState<string>(''); // Separate state for Intro Message
   const [questions, setQuestions] = useState<Question[]>([
     { id: 1, text: '', format: 'text' },
   ]);
-  
-  const navigate = useNavigate(); // Initialize navigate
+
+  const navigate = useNavigate();
 
   const addQuestion = () => {
     setQuestions([
@@ -34,7 +36,8 @@ const ConfigureStandupQuestions: React.FC = () => {
   const handleSaveQuestions = (e: React.FormEvent) => {
     e.preventDefault();
     // Assuming save operation is successful:
-    console.log('Questions saved successfully:', questions);
+    console.log('Intro Message:', introMessage);
+    console.log('Questions:', questions);
 
     // Redirect to the add team member page after saving questions
     navigate('/add-team-member');
@@ -43,8 +46,24 @@ const ConfigureStandupQuestions: React.FC = () => {
   return (
     <div className="configure-questions">
       <Navbar />
+      <TeamNav />
       <h1>Configure Standup Questions</h1>
       <form className="questions-form" onSubmit={handleSaveQuestions}>
+        {/* Intro Message Field */}
+        <div className="intro-message-group">
+          <label htmlFor="introMessage" className="form-label">
+            Intro Message:
+          </label>
+          <textarea
+            id="introMessage"
+            placeholder="Type a intro mesage ..."
+            value={introMessage}
+            onChange={(e) => setIntroMessage(e.target.value)}
+            className="form-textarea"
+          />
+        </div>
+
+        {/* Questions Section */}
         {questions.map((question) => (
           <div key={question.id} className="question-group">
             <label htmlFor={`question-${question.id}`} className="form-label">
@@ -77,6 +96,8 @@ const ConfigureStandupQuestions: React.FC = () => {
             </select>
           </div>
         ))}
+
+        {/* Add Question and Save Buttons */}
         <div className="form-buttons">
           <button type="button" onClick={addQuestion} className="form-button">
             Add Question

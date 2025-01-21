@@ -15,9 +15,9 @@ const Navbar: React.FC = () => (
     <Link to='/standup-collection' className="nav-item">
       <span className="icon"><FontAwesomeIcon icon={faClipboardList} /></span> Standup Bot
     </Link>
-    <Link to="/reports" className="nav-item">
+    {/* <Link to="/reports" className="nav-item">
       <span className="icon"><FontAwesomeIcon icon={faChartBar} /></span> Reports/Analytics
-    </Link>
+    </Link> */}
     <Link to="/teams/:teamId/members/:memberId/standup" className="nav-item">
       <span className="icon"><FontAwesomeIcon icon={faChartBar} /></span> Standup Collection
     </Link>

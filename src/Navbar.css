@@ -52,7 +52,7 @@
   
   body {
     margin: 0;
-    padding-left: 250px; /* To offset the navbar */
+    padding-left: 250px;
     box-sizing: border-box;
   }
   

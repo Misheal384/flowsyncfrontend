@@ -1,0 +1,51 @@
+
+.team-management {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 12px 24px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .team-management h1 {
+    font-size: 18px;
+    margin: 0;
+    color: #333;
+    text-align: center;
+  }
+  
+  .team-management textarea {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    padding: 0.5rem;
+    font-size: 14px;
+    margin-left: 12px;
+  }
+  
+  .team-nav-item {
+    display: inline-flex;
+    padding: 8px 16px;
+    margin: 0 8px;
+    text-decoration: none;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .team-nav-item:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .icon {
+    margin-right: 6px;
+    font-weight: bold;
+  }
+  

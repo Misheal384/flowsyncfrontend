@@ -1,4 +1,4 @@
-/* AddMemberPage.css */
+AddMemberPage.css
 
 /* General page styling */
 /* body {
@@ -15,7 +15,7 @@
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    background-color: #f5f5f5;
+    background-color: #c82222;
     box-sizing: border-box;
   }
   
@@ -28,17 +28,17 @@
   }
   
   /* Form container */
-   .add-member-form {
+   /* .add-member-form {
     background-color: #fff;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for form depth */
+    box-shadow: 0 4px 10px rgba(156, 148, 148, 0.1);
     width: 100%;
     max-width: 400px;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-  }
+  } */
   
   /* Label styling */
   label {
