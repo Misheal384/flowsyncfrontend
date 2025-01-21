@@ -61,6 +61,9 @@ const StandupPage: React.FC = () => {
     <div className="standup-page">
       <Navbar />
       <h1 className="page-title">Team Standups</h1>
+      <p>The Team Standup Dashboard serves as a comprehensive hub for managing and monitoring all team standups in one place. 
+        <p>With powerful filtering and sorting options, users can easily navigate standup data and gain valuable insights.</p>It offers intuitive features to enhance team collaboration and streamline daily workflows. 
+       Additionally, the export functionality allows for seamless data sharing and reporting.</p>
       <form className="standup-filter-form">
         <div className="form-group">
           <label htmlFor="team" className="form-label">
@@ -69,6 +72,7 @@ const StandupPage: React.FC = () => {
           <input
             id="team"
             type="text"
+            placeholder='search by team name...'
             name="team"
             value={filter.team}
             onChange={handleFilterChange}
@@ -95,6 +99,7 @@ const StandupPage: React.FC = () => {
           <input
             id="member"
             type="text"
+            placeholder='search by member name....'
             name="member"
             value={filter.member}
             onChange={handleFilterChange}

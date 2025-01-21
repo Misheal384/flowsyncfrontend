@@ -10,6 +10,7 @@ import ConfigureStandup from './components/pages/ConfigureStandupQuestions';
 import SetUniqueTeamReminder from './components/pages/SetUniqueTeamSchedules';
 import SetReminderTimes from './components/pages/SetUniqueTeamSchedules';
 import StandupPage from './components/pages/StandupPage';
+import StandupCollection from './components/pages/StandupCollection';
 import NotFoundPage from './components/pages/NotFoundPage';
 import Reports from './components/pages/Reports';
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
   { path: '/set-unique-team-schedules', element: <SetUniqueTeamReminder /> },
   { path: '/set-reminder-times', element: <SetReminderTimes /> },
   { path: '/configure-standup-questions', element: <ConfigureStandup /> },
+  { path: '/standup-collection', element: <StandupCollection /> },
   //need to make huge adjustments
   //changes within here to be done
   { path: '/create-team', element: <CreateTeamPage /> },

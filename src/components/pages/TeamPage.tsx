@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTeams, deleteTeam, removeMember } from '../../services/api';
 import Navbar from '../Navbar';
-import '../styles/TeamsPage.css';
+import '../styles/TeamPage.css';
 
 interface Team {
   id: string;
@@ -19,15 +19,21 @@ const TeamsPage: React.FC = () => {
     const fetchTeams = async () => {
       try {
         const response = await getTeams();
-        setTeams(response.data);
+        if (Array.isArray(response.data)) {
+          setTeams(response.data);
+        } else {
+          console.error("Unexpected API response format", response.data);
+          setTeams([]); // Fallback to an empty array
+        }
       } catch (error) {
         console.error('Error fetching teams:', error);
+        setTeams([]); // Fallback to an empty array on error
       }
     };
-
+  
     fetchTeams();
   }, []);
-
+  
   const handleDeleteTeam = async (teamId: string) => {
     try {
       await deleteTeam(teamId);
