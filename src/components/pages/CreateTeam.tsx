@@ -6,12 +6,13 @@ import "../styles/CreateTeam.css";
 const TeamPage: React.FC = () => {
   const [teamName, setTeamName] = useState('');
   const [timezone, setTimezone] = useState('');
-  const [schedule, setSchedule] = useState('');
+  // const [schedule, setSchedule] = useState('');
 
   const handleCreateTeam = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await createTeam({ name: teamName, timezone, schedule });
+      console.log(teamName)
+      const response = await createTeam({ name: teamName, timezone });
       console.log('Team created successfully:', response.data);
     } catch (error) {
       console.error('Error creating team:', error);
@@ -51,7 +52,7 @@ const TeamPage: React.FC = () => {
           </select>
         </label>
 
-        <label>
+        {/* <label>
           Schedule:
           <select 
             value={schedule} 
@@ -63,9 +64,9 @@ const TeamPage: React.FC = () => {
             <option value="Weekly">Weekly</option>
             <option value="Biweekly">Biweekly</option>
             <option value="Monthly">Monthly</option>
-            {/* Add more schedule options as necessary */}
+            
           </select>
-        </label>
+        </label> */}
         
         <button type="submit">Create Team</button>
       </form>
