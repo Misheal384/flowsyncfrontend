@@ -87,14 +87,13 @@ const TeamsPage: React.FC = () => {
   };
   return (
     <div>
-      <div className="team-management">
+      <div className="team-management-header-container">
         <Navbar />
         <div className="team-management-header">
           <h1>Team Management</h1>
           <p>
             Welcome to the Team Setup Page! Here, you can create and manage your teams effortlessly.
-            <br />
-            Add new teams with a name and description.
+            
             <br />
             Manage team members by adding their details, including email and time zone.
             <br />

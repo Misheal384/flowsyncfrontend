@@ -1,92 +1,93 @@
-/* Style for the TeamPage */
+/* Container for the Team Page */
 .team-page {
-    font-family: Arial, sans-serif;
-    padding: 2rem;
-    background-color: #f5f5f5; /* Light grey background for the page */
-    color: #333;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-top: 60px; /* Adjust to account for the navbar */
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+/* Page Title */
+.team-page h1 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Team Form Container */
+.team-form {
+  background-color: #ffffff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Form Labels */
+.team-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  color: #444;
+}
+
+/* Input Fields */
+.team-form input {
+  margin-top: 5px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+.team-form input:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Submit Button */
+.team-form button {
+  background-color: #4CAF50;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.team-form button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.team-form button:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .team-page {
+    padding: 10px;
   }
-  
-  /* Header for the page */
-  .team-page h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    color: #333;
-    font-weight: 600;
+
+  .team-form {
+    padding: 15px 20px;
+    gap: 15px;
   }
-  
-  /* Form container */
-  .team-form{
-    background-color: #fff; /* White background for the form */
-    padding: 2rem;
-    border-radius: 6px; /* Rounded corners */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Light shadow for subtle depth */
-    width: 100%;
-    max-width: 400px; /* Max width for a compact form */
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
+
+  .team-form button {
+    font-size: 16px;
   }
-  
-  /* Label styling */
-  label {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 0.5rem;
-  }
-  
-  /* Input and select fields */
-  input, select {
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #bbb5b5;
-    border-radius: 4px;
-    width: 100%;
-    outline: none;
-    transition: border-color 0.3s ease;
-    background-color: #fafafa; /* Light background for input/select fields */
-  }
-  
-  /* Focus effect for input/select fields */
-  input, select {
-    border-color: #6a11cb; /* Highlight color on focus */
-    background-color: #1b1414; /* White background when focused */
-  }
-  
-  /* Button styling */
-  button {
-    padding: 1rem;
-    font-size: 1.1rem;
-    background-color: #6a11cb;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Button hover effect */
-  button:hover {
-    background-color: #2575fc;
-  }
-  
-  /* For smaller screens */
-  @media (max-width: 768px) {
-    .team-page {
-      padding: 1rem;
-    }
-  
-    form {
-      padding: 1.5rem;
-      width: 90%; /* Make form slightly bigger on mobile */
-    }
-  
-    button {
-      font-size: 1rem;
-    }
-  }
-  
+}

@@ -1,66 +1,81 @@
-/* HomePage.css */
-
+/* Home Page Container */
 .home-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #b293d0, #174189);
-  color: #fff;
   font-family: Arial, sans-serif;
   text-align: center;
-  padding: 2rem;
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  margin-left: 80px; /* Adjusted for vertical navbar offset */
 }
 
+/* Welcome Title */
 .home-page h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 10px;
 }
 
+/* Subtitle */
 .home-page p {
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  max-width: 400px;
-  line-height: 1;
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 40px;
 }
 
+/* Home Links Container */
 .home-links {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  width: 50%;
-  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
 }
 
+/* Card Styling */
 .card {
+  background-color: #4CAF50;
+  color: rgb(153, 103, 103);
+  text-decoration: none;
+  width: 250px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  background: #fff;
-  color: #333;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-decoration: none;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Card Icon */
 .card-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: #6a11cb;
+  font-size: 40px;
+  margin-bottom: 10px;
 }
 
+/* Card Title */
 .card-title {
-  font-size: 1.2rem;
+  font-size: 18px;
   font-weight: bold;
   text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    width: 200px;
+    height: 130px;
+  }
+
+  .card-icon {
+    font-size: 32px;
+  }
+
+  .card-title {
+    font-size: 16px;
+  }
 }

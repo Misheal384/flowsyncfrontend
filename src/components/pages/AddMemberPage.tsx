@@ -4,6 +4,7 @@ import { addMember } from '../../services/api';
 import Navbar from '../Navbar';
 import TeamNav from '../TeamNav';
 import "../styles/AddMemberPage.css";
+import "../styles/Global.css";
 
 
 const AddMemberPage: React.FC = () => {
@@ -44,9 +45,9 @@ const AddMemberPage: React.FC = () => {
       <Navbar />
       <TeamNav />
       <h1>Add Member to Team</h1>
-      <div className="page-container add-member-page">
+      
   ...
-</div>
+
 
       <form className="add-member-form" onSubmit={handleAddMember}>
         <label>

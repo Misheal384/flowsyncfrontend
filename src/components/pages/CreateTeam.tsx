@@ -7,8 +7,7 @@ import "../styles/CreateTeam.css";
 const TeamPage: React.FC = () => {
   const [teamName, setTeamName] = useState('');
   const [teamDescription, setDescription] = useState('');
-  const [timezone, setTimezone] = useState('');
-  const [schedule, setSchedule] = useState('');
+ 
 
   const navigate = useNavigate(); // Initialize navigate
 
@@ -16,7 +15,7 @@ const TeamPage: React.FC = () => {
     e.preventDefault();
     try {
       // Create the team
-      const response = await createTeam({ name: teamName, description: teamDescription, timezone, schedule });
+      const response = await createTeam({ name: teamName, description: teamDescription });
       console.log('Team created successfully:', response.data);
       
       // Redirect to the Configure Standup Questions page
@@ -51,38 +50,7 @@ const TeamPage: React.FC = () => {
           />
         </label>
 
-        {/* <label>
-          Timezone:
-          <select 
-            value={timezone} 
-            onChange={(e) => setTimezone(e.target.value)} 
-            required
-          >
-            <option value="">Select Timezone</option>
-            <option value="UTC">UTC</option>
-            <option value="GMT">GMT</option>
-            <option value="EST">EST</option>
-            <option value="PST">PST</option>
-            <option value="CET">CET</option>
-            <option value="IST">IST</option>
-          </select>
-        </label> */}
-
-        {/* <label>
-          Schedule:
-          <select 
-            value={schedule} 
-            onChange={(e) => setSchedule(e.target.value)} 
-            required
-          >
-            <option value="">Select Schedule</option>
-            <option value="Daily">Daily</option>
-            <option value="Weekly">Weekly</option>
-            <option value="Biweekly">Biweekly</option>
-            <option value="Monthly">Monthly</option>
-          </select>
-        </label>
-         */}
+       
         <button type="submit">Create Team</button>
       </form>
     </div>

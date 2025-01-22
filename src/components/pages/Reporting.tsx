@@ -27,8 +27,8 @@ const Reporting: React.FC = () => {
   };
 
   return (
-    <div className="page-container reporting-container">
-    <div>
+    <div className="pager-container reporting-container">
+    
       <Navbar />
       <TeamNav />
       <div className="reporting-container">
@@ -154,7 +154,7 @@ const Reporting: React.FC = () => {
         </form>
       </div>
     </div>
-    </div>
+    
   );
 };
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar';
 import TeamNav from '../TeamNav';
 import "../styles/ConfigureStandupQuestions.css";
+import "../styles/Global.css";
 
 interface Question {
   id: number;
@@ -44,7 +45,8 @@ const ConfigureStandupQuestions: React.FC = () => {
   };
 
   return (
-    <div className="configure-questions">
+    <div className="page-container configure-questions">
+
       <Navbar />
       <TeamNav />
       <h1>Configure Standup Questions</h1>
@@ -107,7 +109,8 @@ const ConfigureStandupQuestions: React.FC = () => {
           </button>
         </div>
       </form>
-    </div>
+      </div>
+    
   );
 };
 

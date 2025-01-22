@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../Navbar';
+import "../styles/SetReminderTimes.css";
 
 interface Team {
     id: string;
@@ -18,6 +19,7 @@ const SetReminderTimes: React.FC = () => {
     const [members, setMembers] = useState<Member[]>([]);
     const [selectedMember, setSelectedMember] = useState('');
     const [reminderTime, setReminderTime] = useState('');
+    
 
     useEffect(() => {
         // Fetch teams
@@ -67,7 +69,7 @@ const SetReminderTimes: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="set-reminder-times">
             <Navbar />
             <h1>Set Reminder Times</h1>
             <div>
@@ -105,7 +107,7 @@ const SetReminderTimes: React.FC = () => {
                     disabled={!selectedMember}
                 />
             </div>
-            <button onClick={handleSetReminder} disabled={!reminderTime}>
+            <button className='reminder-button' onClick={handleSetReminder} disabled={!reminderTime}>
                 Set Reminder
             </button>
         </div>

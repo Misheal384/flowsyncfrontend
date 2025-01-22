@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../styles/HomePage.css";
 import Navbar from "../Navbar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faSearch, faCheck, faClipboard, faChartBar } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faClipboard, faChartBar } from '@fortawesome/free-solid-svg-icons';
 
 const HomePage: React.FC = () => {
   return (
