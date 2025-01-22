@@ -10,8 +10,8 @@ import "../styles/Global.css";
 const AddMemberPage: React.FC = () => {
   const { teamId } = useParams<{ teamId: string }>();
   const [memberName, setMemberName] = useState('');
-  const [slackId, setSlackId] = useState('');
-  const [email, setEmail] = useState('');
+  // const [slackId, setSlackId] = useState('');
+  // const [email, setEmail] = useState('');
   const [startDate, setStartDate] = useState('');
   const [frequency, setFrequency] = useState('daily');
   const [reminderDay, setReminderDay] = useState('');
@@ -24,8 +24,6 @@ const AddMemberPage: React.FC = () => {
     try {
       const response = await addMember(teamId!, {
         name: memberName,
-        slackId,
-        email,
         startDate,
         frequency,
         reminderDay,
@@ -60,25 +58,9 @@ const AddMemberPage: React.FC = () => {
           />
         </label>
 
-        <label>
-          Slack ID:
-          <input
-            type="text"
-            value={slackId}
-            onChange={(e) => setSlackId(e.target.value)}
-            required
-          />
-        </label>
+        
 
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
+      
 
         <div className="frequency-container">
           <label>

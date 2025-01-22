@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Set up base URL for your backend API
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'http://localhost:5000/api',
 });
 
 export const createTeam = async (teamData: { name: string; description: string;  }) => {
@@ -10,7 +10,7 @@ export const createTeam = async (teamData: { name: string; description: string; 
 };
 
 export const addMember = async (teamId: string, memberData: { name: string;reminderDay: string; frequency: string;
-   startDate: string,reminderTime: string, email: string; slackId: string }) => {
+   startDate: string,reminderTime: string,  }) => {
   return api.post(`/teams/${teamId}/members`, memberData);
 };
 
