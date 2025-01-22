@@ -66,7 +66,7 @@ const StandupPage: React.FC = () => {
         const data = response.data;
 
         // Map API response to the required format
-        const formattedStandups = data.standups.map((item: { _id: string; team: { name: string }; date: string; member: { name: string }; answers: any[] }) => ({
+        const formattedStandups = data.standups.map((item: { _id: string; team: { name: string }; date: string; member: { name: string }; answers: string[] }) => ({
           id: item._id,
           team: item.team?.name || 'No Team',
           date: new Date(item.date).toISOString().split('T')[0], // Format to YYYY-MM-DD

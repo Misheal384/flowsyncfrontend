@@ -134,13 +134,14 @@ const TeamsPage: React.FC = () => {
         {teams.map((team) => (
           <div key={team.id} className="team-card">
             <div className='team-card-top'>
-            <h2>{team.name}</h2>
-              <div className="dropdown">
-                <button className="dropdown-btn">...</button>
-                <div className="dropdown-content">
-                  <button onClick={() => handleDeleteTeam(team.id)}>Delete Team</button>
+              <h2>{team.name}</h2>
+              
+                <div className="dropdown">
+                  <button className="dropdown-btn">...</button>
+                  <div className="dropdown-content">
+                    <button onClick={() => handleDeleteTeam(team.id)}>Delete Team</button>
+                  </div>
                 </div>
-              </div>
             </div>
             <h4>Standup Questions:</h4>
             <ul>

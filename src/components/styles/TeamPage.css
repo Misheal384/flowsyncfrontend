@@ -130,20 +130,24 @@ body {
 .remove-member-btn:hover {
   background-color: #d32f2f;
 }
+
 /*top bar*/
 .team-card-top {
   display: flex;
-  justify-content: space-between;
-}
-/* Dropdown Button */
-.dropdown {
-  position: relative;
-  display: inline-block;
 }
 
-.dropdown h2{
-  float: left;
+.team-card button{
+  width: 10%;
 }
+
+/* Dropdown Button */
+.dropdown{
+  position: absolute;
+  display: inline-block;
+  width: 80%;
+}
+
+
 
 .dropdown-btn {
   background-color: #4CAF50;

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar';
 import TeamNav from '../TeamNav';
 import "../styles/AddMemberPage.css";
 import "../styles/Global.css";
+import { getMembers } from '../../services/api';
 
 interface Member {
   id: string;
@@ -11,7 +12,6 @@ interface Member {
 }
 
 const AddMemberPage: React.FC = () => {
-  const { teamId } = useParams<{ teamId: string }>();
   const [memberName, setMemberName] = useState('');
   const [members, setMembers] = useState<Member[]>([]);
   const [availableMembers, setAvailableMembers] = useState<Member[]>([]);
@@ -27,11 +27,11 @@ const AddMemberPage: React.FC = () => {
     // Fetch available members from the backend
     const fetchMembers = async () => {
       try {
-        const response = await fetch(`/api/${teamId}/members`); // Replace with your actual endpoint
-        if (!response.ok) {
+        const response = await getMembers();
+        if (response.status !== 200) {
           throw new Error('Failed to fetch members');
         }
-        const data: Member[] = await response.json();
+        const data: Member[] = await response.data.users;
         setAvailableMembers(data);
       } catch (error) {
         console.error('Error fetching members:', error);
@@ -168,7 +168,7 @@ const AddMemberPage: React.FC = () => {
           </select>
         </label>
 
-        <button type="submit">Add Member</button>
+        <button type="submit">Add Participants</button>
       </form>
     </div>
   );
