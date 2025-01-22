@@ -27,7 +27,7 @@ const AddMemberPage: React.FC = () => {
     // Fetch available members from the backend
     const fetchMembers = async () => {
       try {
-        const response = await fetch(`/api/${teamId}/members`); // Replace with your actual endpoint
+        const response = await fetch(`/api/members`); // Replace with your actual endpoint
         if (!response.ok) {
           throw new Error('Failed to fetch members');
         }
