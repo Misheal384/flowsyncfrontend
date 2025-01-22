@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import '../styles/StandupPage.css';
+import { Link } from 'react-router-dom';
 
 interface Standup {
   id: number;
@@ -108,11 +109,14 @@ const StandupPage: React.FC = () => {
         </div>
       </form>
       <ul className="standup-list">
-        {filteredStandups.map((standup) => (
+        {standups.map((standup) => (
           <li key={standup.id} className="standup-item">
-            <span>{standup.team}</span> - <span>{standup.date}</span> -{' '}
-            <span>{standup.member}</span> -{' '}
-            <span className={`status ${standup.status}`}>{standup.status}</span>
+            {/* Correct dynamic route link */}
+            <Link to={`/standup-collection/${standup.id}`} className="standup-link">
+              <span>{standup.team}</span> - <span>{standup.date}</span> -{' '}
+              <span>{standup.member}</span> -{' '}
+              <span className={`status ${standup.status}`}>{standup.status}</span>
+            </Link>
           </li>
         ))}
       </ul>
