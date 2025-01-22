@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../Navbar';
-import "../styles/SetReminderTimes.css";
+import '../styles/SetReminderTimes.css';
 
 interface Team {
     id: string;
@@ -13,57 +13,45 @@ interface Member {
     name: string;
 }
 
+// Sample hardcoded data for teams and members
+const mockTeams: Team[] = [
+    { id: '1', name: 'Team Alpha' },
+    { id: '2', name: 'Team Beta' },
+    { id: '3', name: 'Team Gamma' },
+];
+
+const mockMembers: Member[] = [
+    { id: '1', name: 'Alice' },
+    { id: '2', name: 'Bob' },
+    { id: '3', name: 'Charlie' },
+    { id: '4', name: 'David' },
+    { id: '5', name: 'Eve' },
+];
+
 const SetReminderTimes: React.FC = () => {
-    const [teams, setTeams] = useState<Team[]>([]); // Ensure teams starts as an array
+    const [teams, setTeams] = useState<Team[]>(mockTeams);
     const [selectedTeam, setSelectedTeam] = useState('');
-    const [members, setMembers] = useState<Member[]>([]);
-    const [selectedMember, setSelectedMember] = useState('');
+    const [members, setMembers] = useState<Member[]>(mockMembers);
+    const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
     const [reminderTime, setReminderTime] = useState('');
-    
 
-    useEffect(() => {
-        // Fetch teams
-        axios.get('/api/teams')
-            .then((response) => {
-                if (Array.isArray(response.data)) {
-                    setTeams(response.data);
-                } else {
-                    console.error('Unexpected data format for teams:', response.data);
-                    setTeams([]);
-                }
-            })
-            .catch((error) => {
-                console.error('Error fetching teams:', error);
-                setTeams([]); // Fallback to empty array
-            });
-    }, []);
-
-    useEffect(() => {
-        if (selectedTeam) {
-            // Fetch members of the selected team
-            axios.get(`/api/teams/${selectedTeam}/members`)
-                .then((response) => {
-                    if (Array.isArray(response.data)) {
-                        setMembers(response.data);
-                    } else {
-                        console.error('Unexpected data format for members:', response.data);
-                        setMembers([]);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error fetching members:', error);
-                    setMembers([]); // Fallback to empty array
-                });
+    const handleAddMember = (member: Member) => {
+        if (!selectedMembers.some((m) => m.id === member.id)) {
+            setSelectedMembers([...selectedMembers, member]);
         }
-    }, [selectedTeam]);
+    };
+
+    const handleRemoveMember = (memberId: string) => {
+        setSelectedMembers(selectedMembers.filter((member) => member.id !== memberId));
+    };
 
     const handleSetReminder = () => {
-        // Set reminder time for the selected member
+        const memberIds = selectedMembers.map((member) => member.id);
+
         axios
-            .post(`/api/members/${selectedMember}/reminders`, { time: reminderTime })
-            .then((response) => {
+            .post('/api/reminders', { members: memberIds, time: reminderTime })
+            .then(() => {
                 alert('Reminder time set successfully!');
-                console.log(response);
             })
             .catch((error) => console.error('Error setting reminder time:', error));
     };
@@ -84,10 +72,13 @@ const SetReminderTimes: React.FC = () => {
                 </select>
             </div>
             <div>
-                <label>Select Member:</label>
+                <label>Select Members:</label>
                 <select
-                    value={selectedMember}
-                    onChange={(e) => setSelectedMember(e.target.value)}
+                    value=""
+                    onChange={(e) => {
+                        const member = members.find((m) => m.id === e.target.value);
+                        if (member) handleAddMember(member);
+                    }}
                     disabled={!selectedTeam}
                 >
                     <option value="">Select a member</option>
@@ -98,16 +89,28 @@ const SetReminderTimes: React.FC = () => {
                     ))}
                 </select>
             </div>
+            <div className="selected-members">
+                {selectedMembers.map((member) => (
+                    <div key={member.id} className="selected-member">
+                        <span>{member.name}</span>
+                        <button onClick={() => handleRemoveMember(member.id)}>&times;</button>
+                    </div>
+                ))}
+            </div>
             <div>
                 <label>Reminder Time:</label>
                 <input
                     type="time"
                     value={reminderTime}
                     onChange={(e) => setReminderTime(e.target.value)}
-                    disabled={!selectedMember}
+                    disabled={selectedMembers.length === 0}
                 />
             </div>
-            <button className='reminder-button' onClick={handleSetReminder} disabled={!reminderTime}>
+            <button
+                className="reminder-button"
+                onClick={handleSetReminder}
+                disabled={!reminderTime || selectedMembers.length === 0}
+            >
                 Set Reminder
             </button>
         </div>

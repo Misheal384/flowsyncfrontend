@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
-import '../styles/StandupPage.css'
+import '../styles/StandupPage.css';
 
 interface Standup {
   id: number;
@@ -11,35 +11,38 @@ interface Standup {
 }
 
 const StandupPage: React.FC = () => {
+  // Mock data
+  const mockStandups: Standup[] = [
+    { id: 1, team: 'Team Alpha', date: '2025-01-20', member: 'Alice', status: 'completed' },
+    { id: 2, team: 'Team Beta', date: '2025-01-20', member: 'Bob', status: 'pending' },
+    { id: 3, team: 'Team Alpha', date: '2025-01-21', member: 'Charlie', status: 'completed' },
+    { id: 4, team: 'Team Gamma', date: '2025-01-22', member: 'David', status: 'pending' },
+    { id: 5, team: 'Team Beta', date: '2025-01-22', member: 'Eve', status: 'completed' },
+  ];
+
   const [standups, setStandups] = useState<Standup[]>([]);
   const [filteredStandups, setFilteredStandups] = useState<Standup[]>([]);
-  const [filter, setFilter] = useState({ team: '', date: '', member: '' });
+  const [searchOption, setSearchOption] = useState<'team' | 'member' | 'date' | ''>('');
+  const [searchValue, setSearchValue] = useState('');
   const [sort, setSort] = useState<'completed' | 'pending' | ''>('');
 
   useEffect(() => {
-    const fetchStandups = async () => {
-      const response = await fetch('/api/standups');
-      const data = await response.json();
-      setStandups(data);
-      setFilteredStandups(data);
-    };
-
-    fetchStandups();
+    // Use mock data for initial standups
+    setStandups(mockStandups);
+    setFilteredStandups(mockStandups);
   }, []);
 
   useEffect(() => {
+    // Filter based on search option
     let filtered = standups;
 
-    if (filter.team) {
-      filtered = filtered.filter((standup) => standup.team === filter.team);
-    }
-
-    if (filter.date) {
-      filtered = filtered.filter((standup) => standup.date === filter.date);
-    }
-
-    if (filter.member) {
-      filtered = filtered.filter((standup) => standup.member === filter.member);
+    if (searchOption && searchValue) {
+      filtered = filtered.filter((standup) => {
+        if (searchOption === 'team') return standup.team.includes(searchValue);
+        if (searchOption === 'member') return standup.member.includes(searchValue);
+        if (searchOption === 'date') return standup.date === searchValue;
+        return true;
+      });
     }
 
     if (sort) {
@@ -47,73 +50,55 @@ const StandupPage: React.FC = () => {
     }
 
     setFilteredStandups(filtered);
-  }, [filter, sort, standups]);
-
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilter({ ...filter, [e.target.name]: e.target.value });
-  };
-
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSort(e.target.value as 'completed' | 'pending' | '');
-  };
+  }, [searchOption, searchValue, sort, standups]);
 
   return (
     <div className="standup-page">
       <Navbar />
       <h1 className="page-title">Team Standups</h1>
-      <p>The Team Standup Dashboard serves as a comprehensive hub for managing and monitoring all team standups in one place. 
-        <p>With powerful filtering and sorting options, users can easily navigate standup data and gain valuable insights.</p>It offers intuitive features to enhance team collaboration and streamline daily workflows. 
-       Additionally, the export functionality allows for seamless data sharing and reporting.</p>
+      <p>
+        The Team Standup Dashboard serves as a hub for managing and monitoring all team standups. 
+        Users can search by team, member, or date and sort by status.
+      </p>
       <form className="standup-filter-form">
         <div className="form-group">
-          <label htmlFor="team" className="form-label">
-            Team:
+          <label htmlFor="searchOption" className="form-label">
+            Search By:
           </label>
-          <input
-            id="team"
-            type="text"
-            placeholder='search by team name...'
-            name="team"
-            value={filter.team}
-            onChange={handleFilterChange}
-            className="form-input"
-          />
+          <select
+            id="searchOption"
+            value={searchOption}
+            onChange={(e) => setSearchOption(e.target.value as 'team' | 'member' | 'date' | '')}
+            className="form-select"
+          >
+            <option value="">Select an option</option>
+            <option value="team">Team</option>
+            <option value="member">Member</option>
+            <option value="date">Date</option>
+          </select>
         </div>
-        <div className="form-group">
-          <label htmlFor="date" className="form-label">
-            Date:
-          </label>
-          <input
-            id="date"
-            type="date"
-            name="date"
-            value={filter.date}
-            onChange={handleFilterChange}
-            className="form-input"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="member" className="form-label">
-            Member:
-          </label>
-          <input
-            id="member"
-            type="text"
-            placeholder='search by member name....'
-            name="member"
-            value={filter.member}
-            onChange={handleFilterChange}
-            className="form-input"
-          />
-        </div>
+        {searchOption && (
+          <div className="form-group">
+            <label htmlFor="searchValue" className="form-label">
+              {searchOption === 'date' ? 'Select Date' : `Enter ${searchOption.charAt(0).toUpperCase() + searchOption.slice(1)}`}
+            </label>
+            <input
+              id="searchValue"
+              type={searchOption === 'date' ? 'date' : 'text'}
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="form-input"
+            />
+          </div>
+        )}
         <div className="form-group">
           <label htmlFor="sort" className="form-label">
-            Sort by status:
+            Sort by Status:
           </label>
           <select
             id="sort"
             value={sort}
-            onChange={handleSortChange}
+            onChange={(e) => setSort(e.target.value as 'completed' | 'pending' | '')}
             className="form-select"
           >
             <option value="">None</option>
@@ -121,18 +106,13 @@ const StandupPage: React.FC = () => {
             <option value="pending">Pending</option>
           </select>
         </div>
-        <button type="submit" className="form-button">
-          Apply Filters
-        </button>
       </form>
       <ul className="standup-list">
         {filteredStandups.map((standup) => (
           <li key={standup.id} className="standup-item">
             <span>{standup.team}</span> - <span>{standup.date}</span> -{' '}
             <span>{standup.member}</span> -{' '}
-            <span className={`status ${standup.status}`}>
-              {standup.status}
-            </span>
+            <span className={`status ${standup.status}`}>{standup.status}</span>
           </li>
         ))}
       </ul>

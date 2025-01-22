@@ -79,6 +79,39 @@
   div {
     margin-bottom: 1.5rem;
   }
+  .selected-members {
+    margin: 15px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.selected-member {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    background: #e0e0e0;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+.selected-member span {
+    margin-right: 8px;
+}
+
+.selected-member button {
+    background: none;
+    border: none;
+    color: #ff0000;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.selected-member button:hover {
+    color: #cc0000;
+}
+
   
   /* Responsive Design for Smaller Screens */
   @media (max-width: 768px) {

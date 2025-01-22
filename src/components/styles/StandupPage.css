@@ -97,6 +97,17 @@
 .status.pending {
   color: #dc3545;
 }
+.standup-answers {
+  margin-top: 10px;
+  padding-left: 20px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.standup-answers li {
+  margin-bottom: 5px;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
