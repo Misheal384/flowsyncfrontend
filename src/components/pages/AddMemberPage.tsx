@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
-import { addMember } from '../../services/api';
+import { addMember, getMembers} from '../../services/api';
 import Navbar from '../Navbar';
 import TeamNav from '../TeamNav';
 import "../styles/AddMemberPage.css";
@@ -21,6 +21,20 @@ const AddMemberPage: React.FC = () => {
   const [reminderTime, setReminderTime] = useState('participant');
 
   const navigate = useNavigate();
+
+  //use useEffect to get all members
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const response = await getMembers();
+        console.log('Members:', response.data);
+        setMembers(response.data);
+      } catch (error) {
+        console.error('Error fetching members:', error);
+      }
+    };
+    fetchMembers();
+  }, []);
 
   const handleAddMember = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,26 +67,6 @@ const AddMemberPage: React.FC = () => {
             type="text"
             value={memberName}
             onChange={(e) => setMemberName(e.target.value)}
-            required
-          />
-        </label>
-
-        <label>
-          Slack ID:
-          <input
-            type="text"
-            value={slackId}
-            onChange={(e) => setSlackId(e.target.value)}
-            required
-          />
-        </label>
-
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>

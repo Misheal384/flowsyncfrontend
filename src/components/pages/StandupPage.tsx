@@ -1,40 +1,91 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import '../styles/StandupPage.css';
-import { Link } from 'react-router-dom';
+import { getStandupResponses } from '../../services/api';
 
 interface Standup {
-  id: number;
+  id: string;
   team: string;
   date: string;
   member: string;
+  answers: []
   status: 'completed' | 'pending';
 }
 
-const StandupPage: React.FC = () => {
-  // Mock data
-  const mockStandups: Standup[] = [
-    { id: 1, team: 'Team Alpha', date: '2025-01-20', member: 'Alice', status: 'completed' },
-    { id: 2, team: 'Team Beta', date: '2025-01-20', member: 'Bob', status: 'pending' },
-    { id: 3, team: 'Team Alpha', date: '2025-01-21', member: 'Charlie', status: 'completed' },
-    { id: 4, team: 'Team Gamma', date: '2025-01-22', member: 'David', status: 'pending' },
-    { id: 5, team: 'Team Beta', date: '2025-01-22', member: 'Eve', status: 'completed' },
-  ];
+const Modal: React.FC<{ isOpen: boolean, standup: Standup | null, onClose: () => void }> = ({ isOpen, standup, onClose }) => {
+  if (!isOpen || !standup) return null;
 
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <h2>Standup Answers for {standup.member}</h2>
+        <p>Team: {standup.team}</p>
+        <p>Date: {standup.date}</p>
+        <p>Status: {standup.status}</p>
+        <div>
+          <h3>Answers:</h3>
+          <ul>
+            {standup.answers.map((answer, index) => (
+              <li key={index}>{answer}</li>
+            ))}
+          </ul>
+        </div>
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+};
+
+
+const StandupPage: React.FC = () => {
   const [standups, setStandups] = useState<Standup[]>([]);
   const [filteredStandups, setFilteredStandups] = useState<Standup[]>([]);
   const [searchOption, setSearchOption] = useState<'team' | 'member' | 'date' | ''>('');
   const [searchValue, setSearchValue] = useState('');
   const [sort, setSort] = useState<'completed' | 'pending' | ''>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedStandup, setSelectedStandup] = useState<Standup | null>(null);
+
+  const handleItemClick = (standup: Standup) => {
+    setSelectedStandup(standup);
+    setIsModalOpen(true);
+  };
+  
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedStandup(null);
+  };
+  
+
 
   useEffect(() => {
-    // Use mock data for initial standups
-    setStandups(mockStandups);
-    setFilteredStandups(mockStandups);
+    // Fetch standup data from API
+    const fetchStandups = async () => {
+      try {
+        const response = await getStandupResponses(); // Replace with your API endpoint
+        const data = response.data;
+
+        // Map API response to the required format
+        const formattedStandups = data.standups.map((item: { _id: string; team: { name: string }; date: string; member: { name: string }; answers: any[] }) => ({
+          id: item._id,
+          team: item.team?.name || 'No Team',
+          date: new Date(item.date).toISOString().split('T')[0], // Format to YYYY-MM-DD
+          member: item.member.name,
+          status: item.answers.length > 0 ? 'completed' : 'pending',
+        }));
+
+        setStandups(formattedStandups);
+        setFilteredStandups(formattedStandups);
+      } catch (error) {
+        console.error('Error fetching standups:', error);
+      }
+    };
+
+    fetchStandups();
   }, []);
 
   useEffect(() => {
-    // Filter based on search option
+    // Filter and sort logic
     let filtered = standups;
 
     if (searchOption && searchValue) {
@@ -47,7 +98,7 @@ const StandupPage: React.FC = () => {
     }
 
     if (sort) {
-      filtered = filtered.sort((a, b) => (a.status === sort ? -1 : 1));
+      filtered = filtered.sort((a) => (a.status === sort ? -1 : 1));
     }
 
     setFilteredStandups(filtered);
@@ -109,17 +160,17 @@ const StandupPage: React.FC = () => {
         </div>
       </form>
       <ul className="standup-list">
-        {standups.map((standup) => (
-          <li key={standup.id} className="standup-item">
-            {/* Correct dynamic route link */}
-            <Link to={`/standup-collection/${standup.id}`} className="standup-link">
-              <span>{standup.team}</span> - <span>{standup.date}</span> -{' '}
-              <span>{standup.member}</span> -{' '}
-              <span className={`status ${standup.status}`}>{standup.status}</span>
-            </Link>
+        {filteredStandups.map((standup) => (
+          <li key={standup.id} className="standup-item" onClick={() => handleItemClick(standup)}>
+            <span>{standup.team}</span> - <span>{standup.date}</span> -{' '}
+            <span>{standup.member}</span> -{' '}
+            <span className={`status ${standup.status}`}>{standup.status}</span>
           </li>
         ))}
       </ul>
+
+      <Modal isOpen={isModalOpen} standup={selectedStandup} onClose={closeModal} />
+
     </div>
   );
 };

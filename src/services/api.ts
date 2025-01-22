@@ -30,6 +30,16 @@ export const getStandups = async (filters: { teamId?: string; memberId?: string;
 export const getTeamStandups = async (teamId: string) => {
   return api.get(`/standups/teams/${teamId}`);
 };
+
+//get those who responded
+export const getStandupResponses = async () => {
+  return api.get(`/standups/answers`);
+};
+
+// get those who did not respond
+export const getStandupNotResponded = async (standupId: string) => {
+  return await api.get(`/standups/${standupId}/not-responded`);
+};
  
 
 export const getTeams = async () => {
