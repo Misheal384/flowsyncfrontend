@@ -8,7 +8,7 @@ import RemoveTeam from './components/pages/RemoveTeam';
 import RemoveMember from './components/pages/RemoveMember';
 import ConfigureStandup from './components/pages/ConfigureStandupQuestions';
 // import SetUniqueTeamReminder from './components/pages/SetUniqueTeamSchedules';
-import SetReminderTimes from './components/pages/SetReminderTimes';
+import SetReminderTimes from './components/pages/SetReminderTImes';
 import StandupPage from './components/pages/StandupPage';
 import StandupCollection from './components/pages/StandupCollection';
 import NotFoundPage from './components/pages/NotFoundPage';

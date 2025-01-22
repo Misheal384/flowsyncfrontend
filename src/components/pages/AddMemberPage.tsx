@@ -6,12 +6,15 @@ import TeamNav from '../TeamNav';
 import "../styles/AddMemberPage.css";
 import "../styles/Global.css";
 
+interface Member{
+  id: string;
+  name: string;
+}
 
 const AddMemberPage: React.FC = () => {
   const { teamId } = useParams<{ teamId: string }>();
   const [memberName, setMemberName] = useState('');
-  const [slackId, setSlackId] = useState('');
-  const [email, setEmail] = useState('');
+  const [members, setMembers] = useState<Member[]>([]);
   const [startDate, setStartDate] = useState('');
   const [frequency, setFrequency] = useState('daily');
   const [reminderDay, setReminderDay] = useState('');
@@ -23,13 +26,7 @@ const AddMemberPage: React.FC = () => {
     e.preventDefault();
     try {
       const response = await addMember(teamId!, {
-        name: memberName,
-        slackId,
-        email,
-        startDate,
-        frequency,
-        reminderDay,
-        reminderTime,
+        members: members
       });
       console.log('Member added:', response.data);
 
