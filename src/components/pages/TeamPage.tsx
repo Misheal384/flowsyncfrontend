@@ -1,68 +1,91 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteTeam, removeMember } from '../../services/api';
+import { deleteTeam, removeMember, getTeams, getMembers } from '../../services/api';
 import Navbar from '../Navbar';
 import '../styles/TeamPage.css';
-//remember to replace getTeams and useEffect for the useEffect function
+
 interface Team {
   id: string;
   name: string;
+  slackChannelId: string;
   standupQuestions: string[];
   members: { id: string; name: string }[];
 }
-//example hardccoded data for team
-const hardcoded_teams = [
-  { id: '1',
-    name: 'Team 1',
-    standupQuestions: ['What did you do yesterday?', 'What will you do today?', 'Do you have any blockers?'],
-    members: [
-      { id: '1',
-        name: 'Alice'
-      },
-      { id: '2',
-        name: 'Bob'
-      },
-      { id: '3',
-        name: 'Charlie'
-      }, ]
-      ,
-    },
-    { id: '2',
-      name: 'Team 2',
-      standupQuestions: ['What did you work on yesterday?', 'What are you working on today?', 'Do you have any blockers?'],
-      members: [
-        { id: '4',
-          name: 'David'
-        },
-        { id: '5',
-          name: 'Eve'
-        },
-        { id: '6',
-          name: 'Frank'
-        },
-      ],
-    },
-  ];
+
+interface Member {
+  id: string;
+  name: string;
+}
+
+interface ApiResponse {
+  users: { id: string; name: string }[];
+}
+
+function transformResponseToMembers(response: ApiResponse): Member[] {
+  return response.users.map((user) => ({
+    id: user.id,
+    name: user.name,
+  }));
+}
+
+function transformApiResponse(apiResponse: { team: { _id: string; name: string; slackChannelId: string; members: string[] }; questions: { text: string }[] }[]): Team[] {
+  return apiResponse.map((item) => ({
+    id: item.team._id,
+    name: item.team.name,
+    slackChannelId: item.team.slackChannelId,
+    standupQuestions: item.questions.map((q) => q.text),
+    members: item.team.members.map((memberId: string, index: number) => ({
+      id: (index + 1).toString(),
+      name: memberId,
+    })),
+  }));
+}
+
 const TeamsPage: React.FC = () => {
-  const [teams, setTeams] = useState<Team[]>(hardcoded_teams);
+  const [teams, setTeams] = useState<Team[]>([]);
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   const fetchTeams = async () => {
-  //     try {
-  //       const response = await getTeams();
-  //       if (Array.isArray(response.data)) {
-  //         setTeams(response.data);
-  //       } else {
-  //         console.error("Unexpected API response format", response.data);
-  //         setTeams([]); // Fallback to an empty array
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching teams:', error);
-  //       setTeams([]); // Fallback to an empty array on error
-  //     }
-  //   };
-  //   fetchTeams();
-  // }, []);
+
+  useEffect(() => {
+    const fetchTeamsAndMembers = async () => {
+      try {
+        // Fetch teams
+        const teamResponse = await getTeams();
+        let transformedTeams: Team[] = [];
+        if (Array.isArray(teamResponse.data)) {
+          transformedTeams = transformApiResponse(teamResponse.data);
+        } else {
+          console.error("Unexpected API response format for teams", teamResponse.data);
+        }
+  
+        // Fetch members
+        const memberResponse = await getMembers();
+        let members: Member[] = [];
+        if (Array.isArray(memberResponse.data?.users)) {
+          members = transformResponseToMembers(memberResponse.data);
+        } else {
+          console.error("Unexpected API response format for members", memberResponse.data);
+        }
+  
+        // Combine teams and members
+        const updatedTeams = transformedTeams.map((team) => ({
+          ...team,
+          members: team.members.map((member) => ({
+            ...member,
+            name: members.find((user) => user.id === member.name)?.name || member.name,
+          })),
+        }));
+  
+        setTeams(updatedTeams);
+      } catch (error) {
+        console.error('Error fetching teams or members:', error);
+        setTeams([]); // Fallback to an empty array on error
+      }
+    };
+  
+    fetchTeamsAndMembers();
+  }, []);
+  
+
   const handleDeleteTeam = async (teamId: string) => {
     try {
       await deleteTeam(teamId);
@@ -71,6 +94,7 @@ const TeamsPage: React.FC = () => {
       console.error('Error deleting team:', error);
     }
   };
+
   const handleRemoveMember = async (teamId: string, memberId: string) => {
     try {
       await removeMember(teamId, memberId);
@@ -85,6 +109,7 @@ const TeamsPage: React.FC = () => {
       console.error('Error removing member:', error);
     }
   };
+
   return (
     <div>
       <div className="team-management-header-container">
@@ -93,7 +118,6 @@ const TeamsPage: React.FC = () => {
           <h1>Team Management</h1>
           <p>
             Welcome to the Team Setup Page! Here, you can create and manage your teams effortlessly.
-            
             <br />
             Manage team members by adding their details, including email and time zone.
             <br />
@@ -107,10 +131,17 @@ const TeamsPage: React.FC = () => {
         </div>
       </div>
       <div className="teams-container">
-       
         {teams.map((team) => (
           <div key={team.id} className="team-card">
+            <div className='team-card-top'>
             <h2>{team.name}</h2>
+              <div className="dropdown">
+                <button className="dropdown-btn">...</button>
+                <div className="dropdown-content">
+                  <button onClick={() => handleDeleteTeam(team.id)}>Delete Team</button>
+                </div>
+              </div>
+            </div>
             <h4>Standup Questions:</h4>
             <ul>
               {team.standupQuestions.map((question, index) => (
@@ -131,22 +162,11 @@ const TeamsPage: React.FC = () => {
                 </li>
               ))}
             </ul>
-            <div className="dropdown">
-              <button className="dropdown-btn">...</button>
-              <div className="dropdown-content">
-                <button onClick={() => handleDeleteTeam(team.id)}>Delete Team</button>
-              </div>
-            </div>
           </div>
         ))}
       </div>
     </div>
   );
 };
+
 export default TeamsPage;
-
-
-
-
-
-
