@@ -56,5 +56,6 @@ export const removeMember = async ( teamId: string, memberId: string) => {
 
 //function to get all members
 export const getMembers = async () => {
-  return await api.get(`/members`);
+  return await api.get(`/members/`);
 };
+ 
