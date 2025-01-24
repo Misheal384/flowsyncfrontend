@@ -12,7 +12,7 @@ interface Question {
 }
 
 const ConfigureStandupQuestions: React.FC = () => {
-  const [introMessage, setIntroMessage] = useState<string>(''); // Separate state for Intro Message
+   // Separate state for Intro Message
   const [questions, setQuestions] = useState<Question[]>([
     { id: 1, text: '', format: 'text' },
   ]);
@@ -37,7 +37,7 @@ const ConfigureStandupQuestions: React.FC = () => {
   const handleSaveQuestions = (e: React.FormEvent) => {
     e.preventDefault();
     // Assuming save operation is successful:
-    console.log('Intro Message:', introMessage);
+    
     console.log('Questions:', questions);
 
     // Redirect to the add team member page after saving questions
@@ -52,18 +52,7 @@ const ConfigureStandupQuestions: React.FC = () => {
       <h1>Configure Standup Questions</h1>
       <form className="questions-form" onSubmit={handleSaveQuestions}>
         {/* Intro Message Field */}
-        <div className="intro-message-group">
-          <label htmlFor="introMessage" className="form-label">
-            Intro Message:
-          </label>
-          <textarea
-            id="introMessage"
-            placeholder="Type a intro mesage ..."
-            value={introMessage}
-            onChange={(e) => setIntroMessage(e.target.value)}
-            className="form-textarea"
-          />
-        </div>
+       
 
         {/* Questions Section */}
         {questions.map((question) => (
