@@ -5,38 +5,30 @@ import TeamNav from '../TeamNav';
 import "../styles/ConfigureStandupQuestions.css";
 import "../styles/Global.css";
 import { configureStandupQuestions } from '../../services/api';
-
 interface Question {
   id: number;
   text: string;
   answer: string;
 }
-
 const ConfigureStandupQuestions: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([
     { id: 1, text: '', answer: 'text' },
   ]);
-
   //get the team id from the URL
   const { teamId } = useParams();
-
   const navigate = useNavigate();
-
   const addQuestion = () => {
     setQuestions([
       ...questions,
       { id: questions.length + 1, text: '', answer: 'text' },
     ]);
   };
-
   const handleQuestionChange = (id: number, text: string) => {
     setQuestions(questions.map((q) => (q.id === id ? { ...q, text } : q)));
   };
-
   const handleFormatChange = (id: number, format: string) => {
     setQuestions(questions.map((q) => (q.id === id ? { ...q, format } : q)));
   };
-
   const handleSaveQuestions = async(e: React.FormEvent) => {
     e.preventDefault();
     // Assuming save operation is successful:
@@ -51,10 +43,8 @@ const ConfigureStandupQuestions: React.FC = () => {
       console.error('Error configuring standup questions:', configured);
     }
   };
-
   return (
     <div className="page-container configure-questions">
-
       <Navbar />
       <TeamNav />
       <h1>Configure Standup Questions</h1>
@@ -72,7 +62,6 @@ const ConfigureStandupQuestions: React.FC = () => {
             className="form-textarea"
           />
         </div> */}
-
         {/* Questions Section */}
         {questions.map((question) => (
           <div key={question.id} className="question-group">
@@ -106,7 +95,6 @@ const ConfigureStandupQuestions: React.FC = () => {
             </select>
           </div>
         ))}
-
         {/* Add Question and Save Buttons */}
         <div className="form-buttons">
           <button type="button" onClick={addQuestion} className="form-button">
@@ -118,8 +106,6 @@ const ConfigureStandupQuestions: React.FC = () => {
         </div>
       </form>
       </div>
-    
   );
 };
-
 export default ConfigureStandupQuestions;

@@ -7,14 +7,6 @@ const TeamNavbar: React.FC = () => {
 
   return (
     <div className="team-management-team-nav">
-      {/* <h1>{standupName || "Enter Standup Name"}</h1>
-      <textarea
-        placeholder="Type the standup name here..."
-        value={standupName}
-        onChange={(e) => setStandupName(e.target.value)}
-        rows={2}
-        style={{ width: "100%", marginBottom: "1rem", fontSize: "16px", padding: "0.5rem" }}
-      ></textarea> */}
       <div className="team-nav-header">
       <Link to='/configure-standup-questions' className="team-nav-item">
         <span className="icon">1</span> Questions
@@ -22,9 +14,7 @@ const TeamNavbar: React.FC = () => {
       <Link to='/add-team-member' className="team-nav-item">
         <span className="icon">2</span> Add members
       </Link>
-      <Link to='/Reporting' className="team-nav-item">
-        <span className="icon">3</span> Reporting
-      </Link>
+     
     </div>
     </div>
   );
