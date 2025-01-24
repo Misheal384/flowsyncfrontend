@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { getStandupQuestions, submitStandup } from '../../services/api';
 import '../styles/answerPage.css';
 
@@ -21,6 +21,8 @@ const AnswerStandup: React.FC = () => {
     const { teamId } = useParams<{ teamId: string }>();
     const [questions, setQuestions] = useState<Question[]>([]);
     const [answers, setAnswers] = useState<Answer[]>([]);
+
+    const navigate = useNavigate();
 
     console.log(memberId);
 
@@ -62,8 +64,7 @@ const AnswerStandup: React.FC = () => {
             const response = await submitStandup(teamId as string, memberId as string, answers);
             if (response.status === 200 || response.status === 201) {
                 alert('Standup submitted successfully');
-                // Redirect to the team page if needed
-                // navigate(`/`);
+                navigate(`/teams`);
             }
         } catch (error) {
             console.error('Error submitting answers:', error);
