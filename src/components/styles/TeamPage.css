@@ -82,11 +82,14 @@ nav {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 10px;
-  max-width: calc(100% - 20px); /* Leaves space for navbar */
+  padding: 20px;
+  max-width: calc(100% - 40px); /* Adjusted for space around navbar */
   margin-left: 20px;
+  margin-right: 20px; /* Adds space on the right */
+  justify-content: center; /* Centers the team cards horizontally */
   box-sizing: border-box;
 }
+
 
 .team-card {
   background-color: #f9f9f9;
