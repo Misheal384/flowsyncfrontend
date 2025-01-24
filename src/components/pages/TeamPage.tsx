@@ -151,42 +151,49 @@ const TeamsPage: React.FC = () => {
         </div>
       </div>
       <div className="teams-container">
-        {teams.map((team) => (
-          <div key={team.id} className="team-card">
-            <div className='team-card-top'>
-              <h2>{team.name}</h2>
-              
-                <div className="dropdown">
-                  <button className="dropdown-btn">...</button>
-                  <div className="dropdown-content">
-                    <button onClick={() => handleDeleteTeam(team.slackChannelId)}>Delete Team</button>
-                  </div>
-                </div>
-            </div>
-            <h4>Standup Questions:</h4>
-            <ul>
-              {team.standupQuestions.map((question, index) => (
-                <li key={index}>{question}</li>
-              ))}
-            </ul>
-            <h4>Members:</h4>
-            <ul>
-              {team.members.map((member) => (
-                <li key={member.id}>
-                  {member.name}
-                  <button
-                    onClick={() => handleRemoveMember(team.slackChannelId, member.id)}
-                    className="remove-member-btn"
-                  >
-                    Remove
-                  </button>
-                </li>
-              ))}
-            </ul>
+  {teams.map((team) => (
+    <div key={team.id} className="team-card">
+      <div className="team-card-top">
+        <h2>{team.name}</h2>
+        <div className="dropdown-container">
+          <button className="dropdown-btn">...</button>
+          <div className="dropdown-content">
+            <button onClick={() => handleDeleteTeam(team.slackChannelId)}>Delete Team</button>
           </div>
-        ))}
+        </div>
       </div>
+      <h4>Standup Questions:</h4>
+      <ul>
+        {team.standupQuestions.map((question, index) => (
+          <li key={index}>{question}</li>
+        ))}
+      </ul>
+      <h4>Members:</h4>
+      <ul className="members-list">
+        {team.members.map((member) => (
+          <li key={member.id} className="member-item">
+            <span>{member.name}</span>
+            <div className="dropdown-container">
+              <button
+                onClick={() => handleRemoveMember(team.slackChannelId, member.id)}
+                className="remove-member-btn"
+              >
+                ...
+              </button>
+              <div className="dropdown-content">
+                <button>Remove</button>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
+  ))}
+</div>
+
+        
+      </div>
+    
   );
 };
 
