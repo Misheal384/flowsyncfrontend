@@ -121,48 +121,50 @@ const Reports: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className='report-container'>
       <h1>Standup Report</h1>
-      <div className='report-container'>
-        <label htmlFor="team">Choose a team:</label>
-        <select 
-          id="team" 
-          value={selectedTeam} 
-          onChange={(e) => setSelectedTeam(e.target.value)}
-        >
-          <option value="">Select a team</option>
-          {teams.map((team) => (
-            <option key={team._id} value={team._id}>
-              {team.name}
-            </option>
-          ))}
-        </select>
+      <div className='team-selection'>
+      <label htmlFor="team">Choose a team:</label>
+      <select 
+        id="team" 
+        value={selectedTeam} 
+        onChange={(e) => setSelectedTeam(e.target.value)}
+      >
+        <option value="">Select a team</option>
+        {teams.map((team) => (
+        <option key={team._id} value={team._id}>
+          {team.name}
+        </option>
+        ))}
+      </select>
       </div>
       <div className='members-area'>
-        <h2>Missed Standup Members</h2>
-        <ul>
-          {missedMembers.map((member) => (
-             <li key={member._id}>{member.name}</li>
-          ))}
-        </ul>
+      <h2>Missed Standup Members</h2>
+      <ul>
+        {missedMembers.map((member) => (
+         <li key={member._id}>{member.name}</li>
+        ))}
+      </ul>
       </div>
-      <div>
-        <h2>Pending Standup Members</h2>
-        <ul>
-          {pendingMembers.map((member) => (
-            <li key={member._id}>{member.name}</li>
-          ))}
-        </ul>
+      <div className='members-area'>
+      <h2>Pending Standup Members</h2>
+      <ul>
+        {pendingMembers.map((member) => (
+        <li key={member._id}>{member.name}</li>
+        ))}
+      </ul>
       </div>
-      <div>
-        <h2>Completed Standup Members</h2>
-        <ul>
-          {completedMembers.map((member) => (
-            <li key={member._id}>{member.name}</li>
-          ))}
-        </ul>
+      <div className='members-area'>
+      <h2>Completed Standup Members</h2>
+      <ul>
+        {completedMembers.map((member) => (
+        <li key={member._id}>{member.name}</li>
+        ))}
+      </ul>
       </div>
+      <div className='export-button'>
       <button onClick={handleExportPDF}>Export Standup Report</button>
+      </div>
     </div>
   );
 };
