@@ -1,22 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
+import { getStandupQuestions, submitStandup } from '../../services/api';
+import '../styles/answerPage.css';
 
 interface Question {
-    id: number;
-    questionText: string;
+    _id: string;
+    text: string;
+}
+
+interface Answer {
+    question: string;
+    text: string;
+    answer: string;
 }
 
 const AnswerStandup: React.FC = () => {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const memberId = queryParams.get('memberId'); 
     const { teamId } = useParams<{ teamId: string }>();
     const [questions, setQuestions] = useState<Question[]>([]);
-    const [answers, setAnswers] = useState<{ [key: number]: string }>({});
+    const [answers, setAnswers] = useState<Answer[]>([]);
+
+    console.log(memberId);
 
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-                const response = await fetch(`/api/teams/${teamId}/questions`);
-                const data = await response.json();
-                setQuestions(data);
+                const response = await getStandupQuestions(teamId as string);
+                setQuestions(response.data.questions);
+                // Initialize answers with empty strings for each question
+                setAnswers(
+                    response.data.questions.map((q: Question) => ({
+                        question: q._id,
+                        text: q.text,
+                        answer: '',
+                    }))
+                );
             } catch (error) {
                 console.error('Error fetching questions:', error);
             }
@@ -25,27 +45,25 @@ const AnswerStandup: React.FC = () => {
         fetchQuestions();
     }, [teamId]);
 
-    const handleInputChange = (questionId: number, value: string) => {
-        setAnswers((prevAnswers) => ({
-            ...prevAnswers,
-            [questionId]: value,
-        }));
+    const handleInputChange = (questionText: string, value: string) => {
+        setAnswers((prevAnswers) =>
+            prevAnswers.map((answer) =>
+                answer.text === questionText
+                    ? { ...answer, answer: value }
+                    : answer
+            )
+        );
     };
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        console.log(memberId)
         try {
-            const response = await fetch(`/api/teams/${teamId}/answers`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(answers),
-            });
-            if (response.ok) {
-                alert('Answers submitted successfully!');
-            } else {
-                alert('Failed to submit answers.');
+            const response = await submitStandup(teamId as string, memberId as string, answers);
+            if (response.status === 200 || response.status === 201) {
+                alert('Standup submitted successfully');
+                // Redirect to the team page if needed
+                // navigate(`/`);
             }
         } catch (error) {
             console.error('Error submitting answers:', error);
@@ -53,23 +71,30 @@ const AnswerStandup: React.FC = () => {
     };
 
     return (
-        <div>
-            <h1>Answer Standup Questions</h1>
-            <form onSubmit={handleSubmit}>
-                {questions.map((question) => (
-                    <div key={question.id}>
-                        <label>
-                            {question.questionText}
-                            <input
-                                type="text"
-                                value={answers[question.id] || ''}
-                                onChange={(e) => handleInputChange(question.id, e.target.value)}
-                            />
-                        </label>
-                    </div>
-                ))}
-                <button type="submit">Submit</button>
-            </form>
+        <div className='answer-standup-page'>
+            <div className="answer-standup-container">
+                <h1>Answer Standup Questions</h1>
+                <form className='answer-standup-form' onSubmit={handleSubmit}>
+                    {questions.map((question) => (
+                        <div key={question._id}>
+                            <label>
+                                {question.text}
+                                <input
+                                    placeholder='Enter your answer here...'
+                                    type="text"
+                                    value={
+                                        answers.find((answer) => answer.text === question.text)?.answer || ''
+                                    }
+                                    onChange={(e) =>
+                                        handleInputChange(question.text, e.target.value)
+                                    }
+                                />
+                            </label>
+                        </div>
+                    ))}
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
         </div>
     );
 };

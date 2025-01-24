@@ -12,6 +12,11 @@ interface Question {
   answer: string;
 }
 
+interface Answer {
+  question: string;
+  answer: string;
+}
+
 // Set up base URL for your backend API
 const api = axios.create({
   baseURL: 'http://localhost:5000/api',
@@ -30,8 +35,13 @@ export const configureStandupQuestions = async (teamId: string, questions: Quest
   return api.post(`/standups/team/${teamId}/configure`, { questions });
 };
 
-export const submitStandup = async (teamId: string, memberId: string, answers: { questionId: string; response: string }[]) => {
-  return api.post(`/standups/teams/${teamId}/members/${memberId}/standup`, { answers });
+//get standup questions
+export const getStandupQuestions = async (teamId: string) => {
+  return api.get(`/standups/team/${teamId}/questions`);
+};
+
+export const submitStandup = async (teamId: string, memberId: string, answers:Answer[]) => {
+  return api.post(`/standups/team/${teamId}/members/${memberId}/standup`, { "update":answers });
 };
 
 export const getStandups = async (filters: { teamId?: string; memberId?: string; date?: string }) => {
