@@ -62,6 +62,7 @@ const TeamsPage: React.FC = () => {
         let members: Member[] = [];
         if (Array.isArray(memberResponse.data?.users)) {
           members = transformResponseToMembers(memberResponse.data);
+          //console.log(members);
         } else {
           console.error("Unexpected API response format for members", memberResponse.data);
         }
@@ -72,9 +73,11 @@ const TeamsPage: React.FC = () => {
           members: team.members.map((member) => ({
             ...member,
             name: members.find((user) => user.id === member.name)?.name || member.name,
+            id: member.name,
           })),
         }));
   
+        console.log(updatedTeams);
         setTeams(updatedTeams);
       } catch (error) {
         console.error('Error fetching teams or members:', error);
@@ -88,8 +91,15 @@ const TeamsPage: React.FC = () => {
 
   const handleDeleteTeam = async (teamId: string) => {
     try {
-      await deleteTeam(teamId);
-      setTeams(teams.filter((team) => team.id !== teamId));
+      console.log(teamId)
+      const deleted = await deleteTeam(teamId);
+      if (deleted.status === 200) {
+        setTeams(teams.filter((team) => team.slackChannelId !== teamId));
+
+        console.log('Team deleted successfully');
+      } else {
+        console.error('Error deleting team:', deleted);
+      }
     } catch (error) {
       console.error('Error deleting team:', error);
     }
@@ -97,14 +107,24 @@ const TeamsPage: React.FC = () => {
 
   const handleRemoveMember = async (teamId: string, memberId: string) => {
     try {
-      await removeMember(teamId, memberId);
-      setTeams(
-        teams.map((team) =>
-          team.id === teamId
-            ? { ...team, members: team.members.filter((member) => member.id !== memberId) }
+
+      console.log(memberId)
+      const deleted = await removeMember(teamId, memberId);
+
+      if (deleted.status === 200) {
+        setTeams(teams.map((team) =>
+          team.slackChannelId === teamId
+           ? {...team, members: team.members.filter((member) => member.id!== memberId) }
             : team
-        )
-      );
+        ));
+
+        alert('Member removed successfully');
+      } else {
+
+        alert(deleted)
+        console.error('Error removing member:', deleted);
+      }
+    
     } catch (error) {
       console.error('Error removing member:', error);
     }
@@ -139,7 +159,7 @@ const TeamsPage: React.FC = () => {
                 <div className="dropdown">
                   <button className="dropdown-btn">...</button>
                   <div className="dropdown-content">
-                    <button onClick={() => handleDeleteTeam(team.id)}>Delete Team</button>
+                    <button onClick={() => handleDeleteTeam(team.slackChannelId)}>Delete Team</button>
                   </div>
                 </div>
             </div>
@@ -155,7 +175,7 @@ const TeamsPage: React.FC = () => {
                 <li key={member.id}>
                   {member.name}
                   <button
-                    onClick={() => handleRemoveMember(team.id, member.id)}
+                    onClick={() => handleRemoveMember(team.slackChannelId, member.id)}
                     className="remove-member-btn"
                   >
                     Remove

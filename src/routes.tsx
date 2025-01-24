@@ -12,9 +12,9 @@ import SetReminderTimes from './components/pages/SetReminderTimes';
 import StandupPage from './components/pages/StandupPage';
 import StandupCollection from './components/pages/StandupCollection';
 import NotFoundPage from './components/pages/NotFoundPage';
-import Reporting from './components/pages/Reporting';
 import Reports from './components/pages/Reports';
 import StandupDetailsPage from './components/pages/StandupDetailsPage';
+import AnswerStandup from './components/pages/AnswerStandup';
 
 const router = createBrowserRouter([
   { path: '/', element: <HomePage /> },
@@ -22,16 +22,16 @@ const router = createBrowserRouter([
   { path: '/teams/', element: <ManageTeam /> },
   { path: '/add-team', element: <CreateTeamPage /> },
   { path: '/remove-team', element: <RemoveTeam /> },
-  { path: '/add-team-member', element: <AddMemberPage/> },
+  { path: '/add-team-member/:teamId', element: <AddMemberPage/> },
   { path: '/remove-team-member', element: <RemoveMember /> },
   // { path: '/set-unique-team-schedules', element: <SetUniqueTeamReminder /> },
   { path: '/set-reminder-times', element: <SetReminderTimes /> },
-  { path: '/configure-standup-questions', element: <ConfigureStandup /> },
+  { path: '/configure-standup-questions/:teamId', element: <ConfigureStandup /> },
   { path: '/standup-collection', element: <StandupCollection /> },
   
-  {path: '/Reporting', element: <Reporting />},
   //need to make huge adjustments
   //changes within here to be done
+  {path: '/standup-answer/:teamId', element: <AnswerStandup />},
   { path: '/create-team', element: <CreateTeamPage /> },
   { path: '/teams/:teamId/members', element: <AddMemberPage /> },
   { path: '/teams/:teamId/members/:memberId/standup', element: <StandupPage /> },

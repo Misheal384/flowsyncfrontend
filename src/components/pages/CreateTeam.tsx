@@ -19,7 +19,7 @@ const TeamPage: React.FC = () => {
       console.log('Team created successfully:', response.data);
       
       // Redirect to the Configure Standup Questions page
-      navigate('/configure-standup-questions');
+      navigate(`/configure-standup-questions/${response.data.slackChannel.id}`);
     } catch (error) {
       console.error('Error creating team:', error);
     }
