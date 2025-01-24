@@ -67,6 +67,11 @@ export const getTeams = async () => {
   return await api.get('/teams/questions');
 };
 
+//get teams only
+export const getTeamsOnly = async () => {
+  return await api.get('/teams');
+};
+
 export const deleteTeam = async (teamId: string) => {
   return await api.delete(`/teams/${teamId}`);
 };

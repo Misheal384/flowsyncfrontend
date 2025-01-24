@@ -8,11 +8,11 @@ interface Standup {
   team: string;
   date: string;
   member: string;
-  answers: []
+  update: { question: string; answer: string; _id: string }[];
   status: 'completed' | 'pending';
 }
 
-const Modal: React.FC<{ isOpen: boolean, standup: Standup | null, onClose: () => void }> = ({ isOpen, standup, onClose }) => {
+const Modal: React.FC<{ isOpen: boolean; standup: Standup | null; onClose: () => void }> = ({ isOpen, standup, onClose }) => {
   if (!isOpen || !standup) return null;
 
   return (
@@ -25,8 +25,11 @@ const Modal: React.FC<{ isOpen: boolean, standup: Standup | null, onClose: () =>
         <div>
           <h3>Answers:</h3>
           <ul>
-            {standup.answers.map((answer, index) => (
-              <li key={index}>{answer}</li>
+            {standup.update.map((updateItem) => (
+              <li key={updateItem._id}>
+                <strong>Q: {typeof updateItem.question === 'string' ? updateItem.question : 'Invalid question'}</strong>
+                <p>A: {typeof updateItem.answer === 'string' ? updateItem.answer : 'Invalid answer'}</p>
+              </li>
             ))}
           </ul>
         </div>
@@ -35,7 +38,6 @@ const Modal: React.FC<{ isOpen: boolean, standup: Standup | null, onClose: () =>
     </div>
   );
 };
-
 
 const StandupPage: React.FC = () => {
   const [standups, setStandups] = useState<Standup[]>([]);
@@ -50,28 +52,35 @@ const StandupPage: React.FC = () => {
     setSelectedStandup(standup);
     setIsModalOpen(true);
   };
-  
+
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedStandup(null);
   };
-  
-
 
   useEffect(() => {
-    // Fetch standup data from API
     const fetchStandups = async () => {
       try {
-        const response = await getStandupResponses(); // Replace with your API endpoint
+        const response = await getStandupResponses();
         const data = response.data;
-
-        // Map API response to the required format
-        const formattedStandups = data.standups.map((item: { _id: string; team: { name: string }; date: string; member: { name: string }; answers: string[] }) => ({
+        
+        const formattedStandups: Standup[] = data.standups.map((item: {
+          _id: string;
+          team: { name: string };
+          date: string;
+          member: { name: string };
+          update: { question: string; answer: string; _id: string }[];
+        }) => ({
           id: item._id,
           team: item.team?.name || 'No Team',
-          date: new Date(item.date).toISOString().split('T')[0], // Format to YYYY-MM-DD
+          date: new Date(item.date).toISOString().split('T')[0],
           member: item.member.name,
-          status: item.answers.length > 0 ? 'completed' : 'pending',
+          status: item.update.length > 0 ? 'completed' : 'pending',
+          update: item.update.map((updateItem) => ({
+            question: typeof updateItem.question === 'string' ? updateItem.question : 'Invalid question',
+            answer: typeof updateItem.answer === 'string' ? updateItem.answer : 'Invalid answer',
+            _id: updateItem._id || ''
+          }))
         }));
 
         setStandups(formattedStandups);
@@ -85,7 +94,6 @@ const StandupPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Filter and sort logic
     let filtered = standups;
 
     if (searchOption && searchValue) {
@@ -170,7 +178,6 @@ const StandupPage: React.FC = () => {
       </ul>
 
       <Modal isOpen={isModalOpen} standup={selectedStandup} onClose={closeModal} />
-
     </div>
   );
 };
