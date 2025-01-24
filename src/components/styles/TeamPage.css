@@ -56,8 +56,11 @@ nav {
 
 /* Create Team Button */
 .create-team-btn {
+  margin: auto;
   background-color: #4CAF50;
   color: white;
+  width: 25%;
+  height: 3rem;
   font-size: 18px;
   font-weight: bold;
   padding: 10px 20px;
@@ -81,11 +84,11 @@ nav {
 .teams-container {
   display: flex;
   flex-wrap: wrap;
+  margin: auto;
+  width: 85%;
   gap: 20px;
   padding: 20px;
   max-width: calc(100% - 40px); /* Adjusted for space around navbar */
-  margin-left: 20px;
-  margin-right: 20px; /* Adds space on the right */
   justify-content: center; /* Centers the team cards horizontally */
   box-sizing: border-box;
 }
