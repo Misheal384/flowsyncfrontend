@@ -71,7 +71,7 @@ export const getMembers = async () => {
 };
 
 //function to set team reminders
-export const setTeamReminders = async ( reminders: string) => {
-  return await api.post(`/teams/team-reminder`, { reminders });
+// Function to set team reminders
+export const setTeamReminders = async (reminders: { channel: string; text: string; scheduleTime: string }) => {
+  return await api.post(`/teams/team-reminder`, reminders);
 };
- 

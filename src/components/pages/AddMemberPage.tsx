@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate ,useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../Navbar';
 import TeamNav from '../TeamNav';
 import "../styles/AddMemberPage.css";
 import "../styles/Global.css";
 import { getMembers, addMember, setTeamReminders } from '../../services/api';
+
 interface Member {
   id: string;
   name: string;
 }
+
 const AddMemberPage: React.FC = () => {
   const [memberName, setMemberName] = useState('');
   const [members, setMembers] = useState<Member[]>([]);
   const [availableMembers, setAvailableMembers] = useState<Member[]>([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [reminderTime, setReminderTime] = useState('');
+  const [reminderText, setReminderText] = useState('');
   const navigate = useNavigate();
 
-  //get teamId from url
+  // Get teamId from URL
   const { teamId } = useParams();
 
   useEffect(() => {
@@ -36,31 +39,49 @@ const AddMemberPage: React.FC = () => {
     };
     fetchMembers();
   }, []); // Empty dependency array ensures this runs only once
+
   const handleAddMember = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Members to be added:', members);
+
     if (teamId) {
-      const added = await addMember(teamId, members);
-      const reminded = await setTeamReminders(reminderTime);
-      if (added.status === 200 || added.status === 201 && reminded.status === 200 || reminded.status === 201) {
-        console.log(added.data);
-        console.log(reminded.data);
+      try {
+        // Add members to the team
+        const added = await addMember(teamId, members);
+        if (added.status !== 200 && added.status !== 201) {
+          throw new Error('Failed to add members to the team');
+        }
+
+        // Send the reminder
+        const reminderData = {
+          channel: teamId, // Assuming teamId maps to the Slack channel ID
+          text: reminderText,
+          scheduleTime: new Date().toISOString().split("T")[0] + "T" + reminderTime + ":00", // Combine date and time
+        };
+        const reminderResponse = await setTeamReminders(reminderData);
+
+        if (reminderResponse.status !== 200 && reminderResponse.status !== 201) {
+          throw new Error('Failed to set team reminders');
+        }
+
         alert('Members added successfully and reminders set');
-        // Redirect to the team page after adding members
         navigate(`/`);
-      } else {
-        console.error('Error adding members:', added);
+      } catch (error) {
+        console.error('Error adding members or setting reminders:', error);
+        alert('An error occurred. Please try again.');
       }
     } else {
       console.error('Team ID is undefined');
     }
   };
+
   const handleAddToSelectedMembers = (member: Member) => {
     if (!members.find((m) => m.id === member.id)) {
       setMembers([...members, member]);
       setAvailableMembers(availableMembers.filter((m) => m.id !== member.id)); // Remove from dropdown
     }
   };
+
   const handleRemoveMember = (memberId: string) => {
     const removedMember = members.find((m) => m.id === memberId);
     if (removedMember) {
@@ -68,6 +89,7 @@ const AddMemberPage: React.FC = () => {
       setAvailableMembers([...availableMembers, removedMember]); // Add back to dropdown
     }
   };
+
   return (
     <div className="page-container add-member-page">
       <Navbar />
@@ -116,29 +138,30 @@ const AddMemberPage: React.FC = () => {
                 &times;
               </button>
             </li>
-            
           ))}
         </ul>
         <div>
-                <label>Reminder Time:</label>
-                <input
-                    type="time"
-                    value={reminderTime}
-                    onChange={(e) => setReminderTime(e.target.value)}
-                />
-            </div>
-            <label>
-          Reminder text:
+          <label>Reminder Time:</label>
           <input
-            type="text"
-            // value={teamName}
-            // onChange={(e) => setTeamName(e.target.value)}
+            type="time"
+            value={reminderTime}
+            onChange={(e) => setReminderTime(e.target.value)}
             required
           />
-        </label>
+        </div>
+        <div>
+          <label>Reminder Text:</label>
+          <input
+            type="text"
+            value={reminderText}
+            onChange={(e) => setReminderText(e.target.value)}
+            required
+          />
+        </div>
         <button type="submit">Add Participants</button>
       </form>
     </div>
   );
 };
+
 export default AddMemberPage;
